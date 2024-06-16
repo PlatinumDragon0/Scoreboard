@@ -85,4 +85,8 @@ int main()
         std::cout << PlayerArray[i]->GetScore()<< "\n";
 
     }
+
+    //Memory cleaning
+    delete[S] PlayerArray;
+    PlayerArray = nullptr;
 }
