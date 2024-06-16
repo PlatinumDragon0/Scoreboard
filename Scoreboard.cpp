@@ -3,17 +3,46 @@
 #include <algorithm>
 
 
+class PlayerScoreboard
+{
+private:
+
+    std::string Names;
+    int Scores;
+
+public:
+
+    PlayerScoreboard(int count)
+    {
+        std::cout << "Name of player " << count + 1 << " is: ";
+        std::cin >> Names;
+        std::cout << "Score of player " << count + 1 << " is: ";
+        std::cin >> Scores;
+    }
+    
+    int GetScore()
+    {
+        return Scores;
+    }
+
+    void GetNames()
+    {
+        std::cout << Names;
+    }
+};
+
 // An optimized version of Bubble Sort
-void bubbleSort(int arr[], std::string sarr[], int n)
+void bubbleSort(PlayerScoreboard* arr[], int n)
 {
     int i, j;
     bool swapped;
     for (i = 0; i < n - 1; i++) {
         swapped = false;
-        for (j = 0; j < n - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
+        for (j = 0; j < n - i - 1; j++) 
+        {
+            if (arr[j]->GetScore() > arr[j + 1]->GetScore())
+            {
                 std::swap(arr[j], arr[j + 1]);
-                std::swap(sarr[j], sarr[j + 1]);
                 swapped = true;
             }
         }
@@ -33,41 +62,27 @@ int main()
     std::cout << "Number of player: ";
     std::cin >> S ;
 
-    std::string* NameArray = new std::string[S];
-    int* ScoreArray = new int[S];
+    PlayerScoreboard** PlayerArray = new PlayerScoreboard*[S];
 
-
-    
     //Get values
     for (int i = 0 ; i < S ; i++)
     {
-        std::cout << "Name of player "<< i + 1 <<" is: ";
-        std::cin >> NameArray[i];
-        std::cout << "Score of player " << i + 1 << " is: ";
-        std::cin >> ScoreArray[i];
+        PlayerArray[i] = new PlayerScoreboard(i);
     }
 
     //Call a function
-    bubbleSort(ScoreArray, NameArray, S);
+    bubbleSort(PlayerArray, S);
 
     std::cout << "\n" << "Scoreboard:" << "\n";
 
     //Output
-    int n = 0;
-    for (int i = S-1; i >= 0; i--)
-    {
-        n++;
-        std::cout << n << ". " << NameArray[i] << ": " << ScoreArray[i];
-        if (ScoreArray[i] < 10) 
-        {
-            std::cout << " (skill issue)";
-        }
-        std::cout << "\n";
-    }
+    for (int i = S-1; i >= 0; --i)
 
-    //Memory cleaning
-    delete[S] NameArray;
-    delete[S] ScoreArray;
-    NameArray = nullptr;
-    ScoreArray = nullptr;
+    {
+
+        PlayerArray[i]->GetNames();
+        std::cout << ": ";
+        std::cout << PlayerArray[i]->GetScore()<< "\n";
+
+    }
 }
